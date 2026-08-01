@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Secrets — NEVER commit keys
+hermes/auth.json
+hermes/state.db*
+hermes/gateway.*
+hermes/*.lock
+hermes/sessions/
+hermes/logs/
+hermes/cache/
+hermes/hermes-agent/
+hermes/cron/output/
+hermes/.hermes_history
+hermes/.skills_prompt_snapshot.json
+hermes/.update_check
+hermes/*_cache.json
+
+# Editor artifacts
+.vscode/
+.idea/

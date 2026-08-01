@@ -1,0 +1,330 @@
+# i3 config file (v4)
+
+# Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+
+font pango:HurmitNerdFont 14
+
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# Focus follows mouse (set explicitly)
+
+focus_follows_mouse yes
+
+# Hide borders on edge windows
+
+hide_edge_borders smart
+
+# Compositor for transparency and animations
+
+exec_always --no-startup-id picom
+
+# Set multi-monitor layout (HDMI monitor to the right of the laptop screen)
+
+# exec_always --no-startup-id xrandr --output eDP-1 --auto --rate 60 --output HDMI-1 --auto --rate 60 --right-of eDP-1
+
+exec_always --no-startup-id xrandr --output eDP-1 --auto --rate 120 --dpi 192
+
+# Wallpaper manager (Variety is used instead of Nitrogen)
+
+exec --no-startup-id variety
+
+# Eye-saving mode / blue light filter
+
+exec --no-startup-id redshift -m randr -r -t 3500:3500 -l 19.07:72.87
+exec --no-startup-id ~/.local/opt/activitywatch/aw-qt
+# Launch Polybar
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+floating_modifier $mod
+tiling_drag modifier titlebar
+set $refresh_i3status killall -SIGUSR1 i3status
+
+# Define names for default workspaces for which we configure key bindings later on.
+
+# We use variables to avoid repeating the names in multiple places.
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Assign workspaces to specific monitors
+
+workspace $ws1 output eDP-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output eDP-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output eDP-1
+workspace $ws6 output HDMI-1
+workspace $ws7 output eDP-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output eDP-1
+workspace $ws10 output HDMI-1
+
+############################################################
+
+# TERMINAL / APPLICATION LAUNCHERS
+
+############################################################
+
+# Open terminal (Kitty)
+
+bindsym $mod+t exec --no-startup-id "kitty"
+
+# Open VS Code
+
+bindsym $mod+c exec --no-startup-id "code"
+
+# Show scratchpad window
+
+bindsym $mod+Shift+s scratchpad show
+
+# Open file manager (Thunar)
+
+bindsym $mod+x exec --no-startup-id "thunar"
+
+############################################################
+
+# BROWSER
+
+############################################################
+
+# Open Brave browser
+
+bindsym $mod+b exec --no-startup-id "brave-browser"
+
+# Open Brave browser with custom scaling (useful for HiDPI)
+
+bindsym $mod+Shift+b exec --no-startup-id "brave-browser --force-device-scale-factor=2"
+
+############################################################
+
+# WINDOW MANAGEMENT
+
+############################################################
+
+# Move focused window to scratchpad (acts like minimizing)
+
+bindsym $mod+Shift+m move scratchpad
+
+# Kill/close focused window
+
+bindsym $mod+q kill
+
+############################################################
+
+# APPLICATION LAUNCHER / SCREENSHOT
+
+############################################################
+
+# Launch application menu using Rofi
+
+bindsym $mod+d exec "rofi -show drun"
+
+# Screenshot selection using Shutter
+
+bindsym Print exec "shutter -s"
+
+
+############################################################
+
+# WINDOW FOCUS NAVIGATION
+
+############################################################
+
+# Move focus between windows (arrow keys)
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+############################################################
+
+# MOVE WINDOWS
+
+############################################################
+
+# Move the focused window in the layout
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+############################################################
+
+# WINDOW SPLITTING
+
+############################################################
+
+# Split container horizontally
+
+bindsym $mod+h split h
+
+# Split container vertically
+
+bindsym $mod+v split v
+
+############################################################
+
+# WINDOW MODES
+
+############################################################
+
+# Toggle fullscreen mode
+
+bindsym $mod+f fullscreen toggle
+
+# Layout modes
+
+# stack windows vertically
+bindsym $mod+s layout stacking
+
+# tab-style layout
+bindsym $mod+w layout tabbed 
+
+# toggle horizontal/vertical split
+bindsym $mod+e layout toggle split 
+
+# Toggle floating mode
+
+bindsym $mod+Shift+space floating toggle
+
+# Toggle focus between floating and tiling windows
+
+bindsym $mod+space focus mode_toggle
+
+############################################################
+
+# WORKSPACE NAVIGATION
+
+############################################################
+
+# Switch to workspace
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+############################################################
+
+# MOVE WINDOWS TO WORKSPACE
+
+############################################################
+
+# Move the focused window to another workspace
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+############################################################
+
+# I3 CONTROL
+
+############################################################
+
+# Reload configuration file
+
+bindsym $mod+Shift+c reload
+
+# Restart i3 without losing current layout/session
+
+bindsym $mod+Shift+r restart
+
+# Exit i3 session with confirmation
+
+bindsym $mod+Shift+e exec "i3-nagbar -t warning \
+-m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' \
+-B 'Yes, exit i3' 'i3-msg exit'"
+
+# Use pactl to adjust volume in PulseAudio.
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# BRIGHTNESS CONTROLS
+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s 5%+
+
+# MISCHELLANEOUS
+
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym Left  resize shrink width  10 px or 10 ppt
+    bindsym Down  resize grow   height 10 px or 10 ppt
+    bindsym Up    resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow   width  10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+# bindsym $mod+Shift+z exec --no-startup-id $HOME/scripts/fzfranger.zsh  # TODO: create this script
+
+# --- Catppuccin Mocha - Window Colors ---
+
+# The colors are defined in this order:
+
+# client.<state> <border> <background> <text> <indicator> <child_border>
+
+# Focused window: A bright, active blue border
+
+client.focused #89b4fa #1e1e2e #cdd6f4 #89b4fa #89b4fa
+
+# Inactive window in a focused container: A dimmer, subtle grey-blue
+
+client.focused_inactive #dc8a78 #1e1e2e #cdd6f4 #dc8a78 #45475a
+
+# Unfocused window: A dark grey border to let it recede
+
+client.unfocused #dd7878 #1e1e2e #cdd6f4 #dd7878 #45475a
+
+# Urgent window: A bright red border to grab your attention
+
+client.urgent #8839ef #1e1e2e #cdd6f4 #8839ef #f38ba8
+
+# Placeholder windows (e.g., during layout restoration)
+
+client.placeholder #e64553 #1e1e2e #cdd6f4 #e64553 #181825
+
+# This is the color of the wallpaper/background that i3 shows
+
+client.background #1e1e2e
+
+# for_window [all] title_window_icon on
+
+default_border pixel 3
+default_floating_border pixel 2
+gaps inner 4
+
+for_window [title="Application Finder"] floating enable resize set 640 480
+for_window [title="Nitrogen"] floating enable resize set 640 480

@@ -1,0 +1,249 @@
+# ~/.config/sway/config  — IdeaPad Pro 5 (Arrow Lake, 2880x1800) + Samsung FHD (from Mon)
+# Sway uses i3 syntax. Reload: Mod+Shift+c   Exit: Mod+Shift+e
+# List real output names with: swaymsg -t get_outputs
+
+### Modifier
+set $mod Mod4
+
+############################################################
+# OUTPUTS / MONITORS
+############################################################
+# Built-in HiDPI panel: 1.5x fractional scaling -> logical 1920x1200
+output eDP-1 scale 1.5 position 1920 0
+
+# Samsung 27" FHD 100Hz (arrives Mon). HDMI connector = HDMI-A-1 on Sway.
+# If you plug it into DisplayPort instead, change HDMI-A-1 -> DP-1 (check with
+# `swaymsg -t get_outputs`). No scaling needed at 1080p/27". Sits left of laptop.
+output HDMI-A-1 mode 1920x1080@100Hz scale 1 position 0 0
+
+############################################################
+# WORKSPACE -> MONITOR ASSIGNMENT
+############################################################
+# We use variables to avoid repeating names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Odd workspaces on the external monitor, even on the laptop.
+# Until the monitor is connected, the HDMI-A-1 workspaces fall back to eDP-1.
+workspace $ws1 output HDMI-A-1
+workspace $ws2 output eDP-1
+workspace $ws3 output HDMI-A-1
+workspace $ws4 output eDP-1
+workspace $ws5 output HDMI-A-1
+workspace $ws6 output eDP-1
+workspace $ws7 output HDMI-A-1
+workspace $ws8 output eDP-1
+workspace $ws9 output HDMI-A-1
+workspace $ws10 output eDP-1
+
+############################################################
+# INPUT
+############################################################
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    accel_profile adaptive
+}
+input type:keyboard {
+    xkb_layout us
+}
+
+############################################################
+# AUTOSTART
+############################################################
+exec waybar
+exec mako
+exec variety
+exec swayidle -w \
+    timeout 300 'swaylock -f -c 1e1e2e' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume     'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f -c 1e1e2e'
+output * bg #1e1e2e solid_color
+
+############################################################
+# IDLE INHIBIT
+############################################################
+# Don't lock/blank the screen while any window is fullscreen
+# (movies, video players, fullscreen browser video).
+for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [class=".*"]  inhibit_idle fullscreen
+
+############################################################
+# TERMINAL / APPLICATION LAUNCHERS
+############################################################
+# Terminal (Kitty)
+bindsym $mod+t exec kitty
+bindsym $mod+Return exec kitty
+
+# VS Code
+bindsym $mod+c exec code
+
+# Antigravity  (moved off $mod+c to resolve the clash with VS Code)
+bindsym $mod+a exec antigravity
+
+############################################################
+# BROWSER
+############################################################
+# Brave browser
+bindsym $mod+b exec brave-browser
+
+############################################################
+# FILE MANAGER
+############################################################
+# Thunar file manager
+bindsym $mod+x exec thunar
+
+############################################################
+# NETWORK MANAGER (GUI)
+############################################################
+bindsym $mod+n exec nm-connection-editor
+
+############################################################
+# APPLICATION LAUNCHER / SCREENSHOT
+############################################################
+# Rofi (runs via XWayland; launching apps works fine)
+bindsym $mod+d exec rofi -show drun
+
+# Screenshots (grim+slurp): save to ~/Pictures/Screenshots + clipboard + mako popup.
+# Region select:
+bindsym Print                    exec ~/.config/sway/scripts/screenshot.sh region
+bindsym XF86SelectiveScreenshot  exec ~/.config/sway/scripts/screenshot.sh region
+# Full screen:
+bindsym $mod+Print                    exec ~/.config/sway/scripts/screenshot.sh full
+bindsym $mod+XF86SelectiveScreenshot  exec ~/.config/sway/scripts/screenshot.sh full
+
+############################################################
+# WINDOW FOCUS NAVIGATION (arrow keys)
+############################################################
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+############################################################
+# MOVE WINDOWS
+############################################################
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+############################################################
+# WINDOW SPLITTING
+############################################################
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+############################################################
+# CLOSE WINDOW
+############################################################
+# Close focused window
+bindsym $mod+q kill
+
+############################################################
+# WINDOW MODES
+############################################################
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Floating / scratchpad (parity with i3)
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+Shift+s scratchpad show
+
+# Resize mode
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym Left  resize shrink width  10 px
+    bindsym Down  resize grow   height 10 px
+    bindsym Up    resize shrink height 10 px
+    bindsym Right resize grow   width  10 px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+############################################################
+# WORKSPACE NAVIGATION
+############################################################
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+############################################################
+# MOVE WINDOWS TO WORKSPACE
+############################################################
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+############################################################
+# SWAY CONTROL
+############################################################
+# Reload configuration file
+bindsym $mod+Shift+c reload
+
+# Sway has no "restart" (that's i3-only); reload is the equivalent.
+bindsym $mod+Shift+r reload
+
+# Exit with confirmation
+bindsym $mod+Shift+e exec swaynag -t warning \
+    -m 'You pressed the exit shortcut. Do you really want to exit sway?' \
+    -B 'Yes, exit sway' 'swaymsg exit'
+
+############################################################
+# LAPTOP MEDIA / BRIGHTNESS KEYS
+############################################################
+bindsym XF86MonBrightnessUp   exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86AudioRaiseVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute         exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+############################################################
+# APPEARANCE — Catppuccin Mocha window colors
+############################################################
+# class                 border  bg      text    indicator child_border
+client.focused          #89b4fa #89b4fa #1e1e2e #f5c2e7   #89b4fa
+client.focused_inactive #45475a #45475a #cdd6f4 #45475a   #45475a
+client.unfocused        #313244 #1e1e2e #6c7086 #313244   #313244
+client.urgent           #f38ba8 #f38ba8 #1e1e2e #f38ba8   #f38ba8
+client.placeholder      #1e1e2e #1e1e2e #cdd6f4 #1e1e2e   #1e1e2e
+client.background       #1e1e2e
+
+default_border pixel 4
+gaps inner 6
+gaps outer 2
+
+include /etc/sway/config.d/*

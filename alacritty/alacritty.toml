@@ -1,0 +1,23 @@
+[window]
+opacity = 0.8
+
+[colors.primary]
+background = "#000000"
+foreground = "#ffffff"
+
+[colors.normal]
+black = "#000000"
+red = "#900609"
+green = "#03901c"
+yellow = "#b1a105"
+blue = "#044a87"
+magenta = "#830577"
+cyan = "#039064"
+white = "#aaaaaa"
+
+[font]
+size = 11
+
+[font.normal]
+family = 'JetBrainsMono Nerd Font'
+style = 'Regular'

@@ -1,0 +1,70 @@
+/* Catppuccin Mocha — recolor of your existing rofi config (layout & font preserved) */
+
+entry {
+    placeholder: "";
+    text-color: #cdd6f4;            /* text */
+    padding: 8px 0 8px 8px;
+}
+
+configuration {
+    font: "JetBrainsMono Nerd Font Mono 15";
+    lines: 10;
+    fixed-num-lines: true;
+    padding: 10px;
+}
+
+inputbar {
+    children: [entry];
+}
+
+* {
+    separatorcolor: transparent;
+    selected-normal-background: #89b4fa;                 /* blue */
+    normal-background: rgba(255,255,255, 0%);
+    alternate-normal-background: rgba(255,255,255, 0%);
+}
+
+mainbox {
+    border: 2px;
+    border-color: #89b4fa;          /* blue */
+    border-radius: 10px;
+    padding: 10px;
+}
+
+window {
+    border-radius: 11px;
+    border: 1px solid;
+    border-color: #89b4fa;          /* blue */
+    background-color: rgba(30,30,46, 92%);   /* base */
+    padding: 0px;
+    width: 40%;
+}
+
+
+listview {
+    lines: 10;
+}
+
+element {
+    padding: 10px 10px;
+    height: 50px;
+    border-radius: 5px;
+    children: [ element-text, element-icon ];
+}
+
+element-text {
+    text-color: #cdd6f4;            /* text */
+}
+
+element selected {
+    text-color: #1e1e2e;            /* base — dark text on blue selection */
+}
+element selected element-text {
+    text-color: #1e1e2e;
+}
+
+#scrollbar {
+    handle-color: #89b4fa;          /* blue */
+    handle-width: 4px ;
+    padding: 0;
+}

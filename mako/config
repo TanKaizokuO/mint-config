@@ -1,0 +1,49 @@
+# ~/.config/mako/config — Catppuccin Mocha
+# Reload after editing:  makoctl reload
+
+## Appearance
+font=Hurmit Nerd Font Propo 11
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#89b4fa
+progress-color=over #313244
+
+border-size=2
+border-radius=10
+padding=12
+margin=10
+width=360
+height=120
+icons=1
+max-icon-size=48
+
+## Position & behaviour
+anchor=top-right
+layer=overlay
+default-timeout=10000
+ignore-timeout=0
+max-visible=5
+sort=-time
+
+## Format: bold summary, body underneath
+format=<b>%s</b>\n%b
+
+## Low urgency — dimmer
+[urgency=low]
+border-color=#585b70
+text-color=#a6adc8
+default-timeout=10000
+
+## Normal urgency — blue accent (inherits defaults)
+[urgency=normal]
+border-color=#89b4fa
+
+## Critical — red, never auto-dismiss
+[urgency=critical]
+border-color=#f38ba8
+text-color=#f38ba8
+default-timeout=10000
+
+## Group notifications from the same app
+[grouped]
+format=<b>%s</b>\n%b (%g)

@@ -1,0 +1,191 @@
+# Define names for default workspaces for which we configure key bindings later on.
+
+# We use variables to avoid repeating the names in multiple places.
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Assign workspaces to specific monitors
+
+workspace $ws1 output eDP-1
+workspace $ws2 output HDMI-1
+workspace $ws3 output eDP-1
+workspace $ws4 output HDMI-1
+workspace $ws5 output eDP-1
+workspace $ws6 output HDMI-1
+workspace $ws7 output eDP-1
+workspace $ws8 output HDMI-1
+workspace $ws9 output eDP-1
+workspace $ws10 output HDMI-1
+
+############################################################
+
+# TERMINAL / APPLICATION LAUNCHERS
+
+############################################################
+
+# Open terminal (Kitty)
+
+bindsym $mod+t exec --no-startup-id "kitty"
+
+# Open VS Code
+
+bindsym $mod+c exec --no-startup-id "code"
+
+# Open Antigravity (separate key to avoid clash with VS Code)
+
+bindsym $mod+a exec --no-startup-id "antigravity"
+
+############################################################
+
+# BROWSER
+
+############################################################
+
+# Open Brave browser
+
+bindsym $mod+b exec --no-startup-id "brave-browser"
+
+############################################################
+
+# APPLICATION LAUNCHER / SCREENSHOT
+
+############################################################
+
+# Launch application menu using Rofi
+
+bindsym $mod+d exec "rofi -show drun"
+
+# Screenshot selection using Shutter
+
+bindsym Print exec "shutter -s"
+
+
+############################################################
+
+# WINDOW FOCUS NAVIGATION
+
+############################################################
+
+# Move focus between windows (arrow keys)
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+############################################################
+
+# MOVE WINDOWS
+
+############################################################
+
+# Move the focused window in the layout
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+############################################################
+
+# WINDOW SPLITTING
+
+############################################################
+
+# Split container horizontally
+
+bindsym $mod+h split h
+
+# Split container vertically
+
+bindsym $mod+v split v
+
+############################################################
+
+# WINDOW MODES
+
+############################################################
+
+# Toggle fullscreen mode
+
+bindsym $mod+f fullscreen toggle
+
+# Layout modes
+
+# stack windows vertically
+bindsym $mod+s layout stacking
+
+# tab-style layout
+bindsym $mod+w layout tabbed 
+
+# toggle horizontal/vertical split
+bindsym $mod+e layout toggle split 
+
+############################################################
+
+# WORKSPACE NAVIGATION
+
+############################################################
+
+# Switch to workspace
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+############################################################
+
+# MOVE WINDOWS TO WORKSPACE
+
+############################################################
+
+# Move the focused window to another workspace
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+############################################################
+
+# I3 CONTROL
+
+############################################################
+
+# Reload configuration file
+
+bindsym $mod+Shift+c reload
+
+# Restart i3 without losing current layout/session
+
+bindsym $mod+Shift+r restart
+
+# Exit i3 session with confirmation
+
+bindsym $mod+Shift+e exec "i3-nagbar -t warning \
+-m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' \
+-B 'Yes, exit i3' 'i3-msg exit'"
+
+# Catppuccin Mocha - Window Colors

@@ -1,0 +1,101 @@
+/* Waybar — Catppuccin Mocha */
+
+* {
+    font-family: "Hurmit Nerd Font Propo", "Font Awesome 5 Free", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: #cdd6f4;
+}
+
+/* The bar itself sits inside a rounded floating pill */
+.modules-left,
+.modules-center,
+.modules-right {
+    background: rgba(30, 30, 46, 0.92);
+    border-radius: 12px;
+    padding: 0 6px;
+    margin: 0 4px;
+}
+
+/* ---- Workspaces ---- */
+#workspaces {
+    padding: 0 2px;
+}
+#workspaces button {
+    padding: 0 8px;
+    margin: 3px 2px;
+    color: #6c7086;
+    background: transparent;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+}
+#workspaces button:hover {
+    background: #313244;
+    color: #cdd6f4;
+}
+#workspaces button.focused {
+    background: #89b4fa;
+    color: #1e1e2e;
+}
+#workspaces button.urgent {
+    background: #f38ba8;
+    color: #1e1e2e;
+}
+
+#mode {
+    color: #f38ba8;
+    padding: 0 10px;
+}
+
+/* ---- Window title ---- */
+#window {
+    color: #a6adc8;
+    padding: 0 10px;
+    font-style: italic;
+}
+window#waybar.empty #window {
+    background: transparent;
+}
+
+/* ---- Right-side modules ---- */
+#cpu,
+#memory,
+#backlight,
+#network,
+#pulseaudio,
+#battery,
+#clock,
+#tray {
+    padding: 0 10px;
+    margin: 3px 1px;
+    border-radius: 8px;
+    background: transparent;
+}
+
+#clock       { color: #cdd6f4; font-weight: bold; }
+#cpu         { color: #94e2d5; }
+#memory      { color: #cba6f7; }
+#backlight   { color: #f9e2af; }
+#network     { color: #89dceb; }
+#pulseaudio  { color: #fab387; }
+#battery     { color: #a6e3a1; }
+
+#pulseaudio.muted { color: #6c7086; }
+
+#battery.warning  { color: #f9e2af; }
+#battery.critical { color: #f38ba8; }
+#battery.charging { color: #a6e3a1; }
+
+#network.disconnected { color: #f38ba8; }
+
+#tray {
+    padding: 0 8px;
+}
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; }
