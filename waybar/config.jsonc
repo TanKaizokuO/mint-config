@@ -7,7 +7,7 @@
     "margin-left": 8,
     "margin-right": 8,
 
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/usage-cc", "custom/usage-cx", "custom/usage-agy"],
     "modules-center": ["clock"],
     "modules-right": ["cpu", "memory", "backlight", "network", "pulseaudio", "battery", "tray"],
 
@@ -57,6 +57,25 @@
         "format-plugged": "  {capacity}%",
         "format-icons": ["", "", "", "", ""],
         "states": { "warning": 30, "critical": 15 }
+    },
+
+    "custom/usage-cc": {
+        "exec": "/home/tankaizokuo/.config/waybar/scripts/usage.py cc",
+        "return-type": "json",
+        "interval": 30,
+        "tooltip": true
+    },
+    "custom/usage-cx": {
+        "exec": "/home/tankaizokuo/.config/waybar/scripts/usage.py cx",
+        "return-type": "json",
+        "interval": 30,
+        "tooltip": true
+    },
+    "custom/usage-agy": {
+        "exec": "/home/tankaizokuo/.config/waybar/scripts/usage.py agy",
+        "return-type": "json",
+        "interval": 30,
+        "tooltip": true
     },
 
     "clock": {

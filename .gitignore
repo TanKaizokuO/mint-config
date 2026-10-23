@@ -23,3 +23,13 @@ hermes/*_cache.json
 # Editor artifacts
 .vscode/
 .idea/
+
+# Local environments and tooling
+.venv/
+.env
+.env.*
+!.env.example
+.omp/
+.claude/
+__pycache__/
+node_modules/
