@@ -40,8 +40,8 @@
         "format-wifi": "  {signalStrength}%",
         "format-ethernet": "  wired",
         "format-disconnected": "  offline",
-        "tooltip-format": "{essid}\n{ifname}: {ipaddr}",
-        "on-click": "kitty -e nmtui"
+        "tooltip-format": "{essid}\n{ifname}: {ipaddr}\nClick: Wi-Fi controls",
+        "on-click": "/usr/bin/python3 ~/.config/waybar/scripts/wifi_popover.py"
     },
 
     "pulseaudio": {

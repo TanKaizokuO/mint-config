@@ -49,6 +49,15 @@ chmod +x install.sh
 ./install.sh --force  # overwrites everything
 ```
 
+### Waybar Wi-Fi popup
+
+The network pill opens a GTK3 popup; Escape, an outside click, or a second pill click closes it.
+Opening uses cached NetworkManager state; Refresh explicitly requests a scan.
+Requires Python 3 with PyGObject, GTK3, libnm, and gtk-layer-shell on a layer-shell compositor.
+On Ubuntu/Mint: `sudo apt install python3-gi gir1.2-gtk-3.0 gir1.2-nm-1.0 libgtk-layer-shell0 gir1.2-gtklayershell-0.1`.
+The bundled Ubuntu noble 0.8.2-1build2 x86-64 GtkLayerShell typelib is a fallback when the system typelib is absent; its copyright notice is included.
+Offline backend regressions: `/usr/bin/python3 -m unittest discover -s waybar/tests -v`.
+
 ## Structure
 
 ```
