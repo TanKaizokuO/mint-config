@@ -27,7 +27,7 @@ window#waybar {
 /* Match light-theme geometry, including the clock's container surface.
    Only the tint, rim and highlight differ between themes. */
 #workspaces,
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane,
 #perf, #conn, #power,
 #tray,
 .modules-center {
@@ -78,7 +78,7 @@ window#waybar.empty #window { background: transparent; }
     background: transparent;
     color: #F2F2F2;
 }
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy {
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane {
     padding: 0 14px;
     color: #F2F2F2;
 }
@@ -94,6 +94,7 @@ window#waybar.empty #window { background: transparent; }
 /* Usage pills: labels are Pango-dimmed by usage.py; % stays neutral until it matters */
 #custom-usage-cc.warning, #custom-usage-cx.warning, #custom-usage-agy.warning { color: #FFD60A; }
 #custom-usage-cc.critical, #custom-usage-cx.critical, #custom-usage-agy.critical { color: #FF453A; }
+#custom-daypane.overdue { color: #FF453A; }
 
 #tray { padding: 0 12px; }
 #tray > .passive { -gtk-icon-effect: dim; }
@@ -102,7 +103,7 @@ window#waybar.empty #window { background: transparent; }
 /* Vertical centring: the font's glyphs sit ~2px high in the 34px bar, so give the
    text 4px of top padding (centre moves down 2px). The bar height fixes the pill height. */
 #workspaces button,
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane,
 #clock, #cpu, #memory, #backlight, #network, #pulseaudio, #battery {
     padding-top: 4px;
     padding-bottom: 0;

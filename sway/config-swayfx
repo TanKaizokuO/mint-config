@@ -25,6 +25,7 @@ dim_inactive_colors.unfocused #000000FF
 layer_effects "waybar" blur disable; shadows disable; corner_radius 0
 layer_effects "launcher" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
 layer_effects "notifications" blur enable; blur_ignore_transparent enable; corner_radius 14
+layer_effects "daypane" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
 
 # File managers as glass: Nautilus and Yazi (kitty --class yazi) at 0.75 so the blur shows through.
 # Window opacity fades text too; Yazi stacks on kitty's own background_opacity.

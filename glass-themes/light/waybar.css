@@ -45,7 +45,7 @@ window#waybar {
 /* Left-side pills: same glass as the centre/right pills. The 8px gap between them
    is the 4px box spacing from config.jsonc plus the 4px right margin. */
 #workspaces,
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane,
 #perf, #conn, #power,
 #tray {
     background: rgba(162, 162, 165, 0.61);
@@ -132,13 +132,14 @@ window#waybar.empty #window {
 #network.disconnected { color: #C25E00; }
 
 /* ---- Usage pills (CC / CX / AGY): labels are Pango-dimmed, the % takes the status colour ---- */
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy {
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane {
     padding: 0 14px;
     color: #3A3A3F;
 }
 #custom-usage-cc.ok, #custom-usage-cx.ok, #custom-usage-agy.ok { color: #0A4D1A; }
 #custom-usage-cc.warning, #custom-usage-cx.warning, #custom-usage-agy.warning { color: #5C4200; }
 #custom-usage-cc.critical, #custom-usage-cx.critical, #custom-usage-agy.critical { color: #8A0012; }
+#custom-daypane.overdue { color: #8A0012; }
 
 #tray {
     padding: 0 12px;
@@ -152,7 +153,7 @@ window#waybar.empty #window {
 /* Vertical centring: the font's glyphs sit ~2px high in the 34px bar, so give the
    text 4px of top padding (centre moves down 2px). The bar height fixes the pill height. */
 #workspaces button,
-#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy, #custom-daypane,
 #clock, #cpu, #memory, #backlight, #network, #pulseaudio, #battery {
     padding-top: 4px;
     padding-bottom: 0;

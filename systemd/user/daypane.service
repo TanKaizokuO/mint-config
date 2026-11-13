@@ -1,0 +1,13 @@
+[Unit]
+Description=Daypane daemon (calendar sync, reminders, Waybar output)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.cargo/bin/daypane daemon
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

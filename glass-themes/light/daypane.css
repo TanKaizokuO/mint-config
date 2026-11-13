@@ -1,0 +1,107 @@
+/* daypane popup — light glass. Same tint, rim and palette as waybar.css and mako.conf.
+   Loaded via ~/.config/daypane/style.css -> ../glass-themes/current/daypane.css.
+   SwayFX blurs the surface behind it (layer_effects "daypane" in config-swayfx). */
+
+@define-color glass_fill rgba(162, 162, 165, 0.61);
+@define-color glass_rim rgba(255, 255, 255, 0.43);
+@define-color glass_highlight rgba(255, 255, 255, 0.48);
+@define-color glass_hover rgba(255, 255, 255, 0.18);
+@define-color glass_active rgba(255, 255, 255, 0.38);
+@define-color glass_field rgba(255, 255, 255, 0.22);
+@define-color glass_popover rgba(190, 190, 193, 0.96);
+@define-color glass_fg #1D1D1F;
+@define-color glass_muted #3A3A3F;
+@define-color glass_ok #0A4D1A;
+@define-color glass_warn #5C4200;
+@define-color glass_accent #C25E00;
+@define-color glass_bad #8A0012;
+
+/* Palette names used by the built-in stylesheets. */
+@define-color theme_fg_color @glass_fg;
+@define-color theme_selected_bg_color @glass_active;
+@define-color theme_selected_fg_color @glass_fg;
+@define-color borders @glass_rim;
+@define-color error_color @glass_bad;
+@define-color success_color @glass_ok;
+@define-color warning_color @glass_warn;
+
+window.popup-window {
+  background-color: @glass_fill;
+  color: @glass_fg;
+  border: 1px solid @glass_rim;
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 @glass_highlight;
+  font-family: "JetBrainsMono NFM", monospace;
+  font-size: 14px;
+}
+
+window.popup-window button:hover { background-color: @glass_hover; }
+window.popup-window button:active { background-color: @glass_active; }
+
+window.popup-window .pane.focused .pane-title { color: @glass_fg; opacity: 1; }
+window.popup-window .pane-title { color: @glass_muted; }
+window.popup-window .weekday,
+window.popup-window .status,
+window.popup-window .empty { color: @glass_muted; }
+
+window.popup-window button.day { border-radius: 10px; }
+window.popup-window button.day.today { box-shadow: inset 0 0 0 1px @glass_rim; }
+window.popup-window button.day.selected-day {
+  background-color: @glass_active;
+  color: @glass_fg;
+}
+window.popup-window .pane.focused button.day.selected-day {
+  box-shadow: inset 0 1px 0 @glass_highlight, 0 0 0 1px @glass_rim;
+}
+window.popup-window button.day.has-events .dot-event { color: @glass_fg; }
+window.popup-window button.day.selected-day .dot { color: @glass_fg; }
+
+window.popup-window .event { background-color: @glass_field; border-radius: 10px; }
+
+window.popup-window .section-header.overdue,
+window.popup-window .task-row.overdue .task-time { color: @glass_accent; }
+window.popup-window .task-row { border-radius: 10px; }
+window.popup-window .task-row.selected-task { background-color: @glass_hover; }
+window.popup-window .pane.focused .task-row.selected-task {
+  background-color: @glass_active;
+  border-color: @glass_rim;
+}
+window.popup-window .task-tag { color: @glass_muted; }
+window.popup-window .chip { background-color: @glass_active; border-radius: 999px; }
+window.popup-window .chip.invalid { color: @glass_accent; }
+
+window.popup-window entry,
+window.popup-window textview,
+window.popup-window textview text {
+  background-color: @glass_field;
+  color: @glass_fg;
+  border-color: @glass_rim;
+  caret-color: @glass_fg;
+  border-radius: 10px;
+}
+window.popup-window entry:focus-within {
+  border-color: @glass_muted;
+  box-shadow: none;
+}
+
+window.popup-window checkbutton check {
+  background-color: @glass_field;
+  border: 1px solid @glass_rim;
+  color: @glass_fg;
+}
+window.popup-window checkbutton check:checked {
+  background-color: @glass_active;
+  border-color: @glass_muted;
+}
+
+window.popup-window dropdown button,
+window.popup-window popover contents {
+  background-color: @glass_popover;
+  color: @glass_fg;
+  border-color: @glass_rim;
+}
+
+window.popup-window link,
+window.popup-window button.link { color: @glass_fg; }
+
+window.popup-window separator { background-color: @glass_rim; }

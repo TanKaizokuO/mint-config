@@ -84,6 +84,10 @@ link "$THEME/rofi.rasi"                   "$HOME/.config/rofi/config.rasi"
 echo "[fuzzel]"
 link "$THEME/fuzzel.ini"                  "$HOME/.config/fuzzel/fuzzel.ini"
 
+echo "[daypane]"
+# Style only; ~/.config/daypane/config.toml holds calendar credentials and stays untracked.
+link "$THEME/daypane.css"                 "$HOME/.config/daypane/style.css"
+
 # ── Terminals ────────────────────────────────────────────
 echo "[kitty]"
 link "$DOTFILES/kitty/kitty.conf"         "$HOME/.config/kitty/kitty.conf"
@@ -157,4 +161,4 @@ link "$DOTFILES/hermes/config.yaml"       "$HOME/.hermes/config.yaml"
 
 echo
 echo "Done! Restart your shell or WM to pick up changes."
-echo "Enable services with: systemctl --user daemon-reload && systemctl --user enable --now usage-fetch.timer claude-usage-fetch.timer weekly-maintenance.timer brave-volume-guard.service"
+echo "Enable services with: systemctl --user daemon-reload && systemctl --user enable --now usage-fetch.timer claude-usage-fetch.timer weekly-maintenance.timer brave-volume-guard.service daypane.service"

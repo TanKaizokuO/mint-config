@@ -32,4 +32,5 @@ hermes/*_cache.json
 .omp/
 .claude/
 __pycache__/
+daypane/config.toml
 node_modules/

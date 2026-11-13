@@ -135,6 +135,11 @@ bindsym $mod+Return exec kitty
 # VS Code
 bindsym $mod+c exec code
 
+# daypane: calendar + tasks popup (Esc closes it)
+bindsym $mod+Shift+d exec ~/.cargo/bin/daypane popup --show
+# Invisible hover strip over the Waybar clock: hovering opens the popup
+exec ~/.cargo/bin/daypane hotzone
+
 # Antigravity 
 bindsym $mod+a exec antigravity
 
