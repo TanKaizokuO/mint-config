@@ -1,0 +1,10 @@
+[Unit]
+Description=Log and reset Brave hidden volume drops
+After=pipewire.service wireplumber.service
+
+[Service]
+ExecStart=%h/.local/bin/brave-volume-guard
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

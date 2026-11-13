@@ -1,0 +1,86 @@
+# Glass dark theme for btop (kitty bg #13160F, translucent)
+# Selected via ~/.config/btop/themes/glass.theme -> ~/.config/glass-themes/current/btop.theme
+
+# Main bg: empty so the terminal glass shows through
+theme[main_bg]=""
+
+# Main text color
+theme[main_fg]="#F2F2F5"
+
+# Title color for boxes
+theme[title]="#F2F2F5"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#FF9F0A"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#3A3A40"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#F2F2F5"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#9A9AA3"
+
+# Color of text on top of graphs
+theme[graph_text]="#9A9AA3"
+
+# Background color of the percentage meters
+theme[meter_bg]="#3A3A40"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#64D2FF"
+
+# Box outline colors (neutral divider grey)
+theme[cpu_box]="#3A3A40"
+theme[mem_box]="#3A3A40"
+theme[net_box]="#3A3A40"
+theme[proc_box]="#3A3A40"
+
+# Box divider line and small boxes line color
+theme[div_line]="#3A3A40"
+
+# Temperature graph colors (load: green -> yellow -> red)
+theme[temp_start]="#30D158"
+theme[temp_mid]="#FFD60A"
+theme[temp_end]="#FF453A"
+
+# CPU graph colors (load: green -> yellow -> red)
+theme[cpu_start]="#30D158"
+theme[cpu_mid]="#FFD60A"
+theme[cpu_end]="#FF453A"
+
+# Process box gradient (load: green -> yellow -> red)
+theme[process_start]="#30D158"
+theme[process_mid]="#FFD60A"
+theme[process_end]="#FF453A"
+
+# Mem/Disk free meter (blue -> cyan -> purple; dark palette has no cyan, blue stands in)
+theme[free_start]="#64D2FF"
+theme[free_mid]="#64D2FF"
+theme[free_end]="#BF5AF2"
+
+# Mem/Disk cached meter
+theme[cached_start]="#64D2FF"
+theme[cached_mid]="#64D2FF"
+theme[cached_end]="#BF5AF2"
+
+# Mem/Disk available meter
+theme[available_start]="#64D2FF"
+theme[available_mid]="#64D2FF"
+theme[available_end]="#BF5AF2"
+
+# Mem/Disk used meter
+theme[used_start]="#64D2FF"
+theme[used_mid]="#64D2FF"
+theme[used_end]="#BF5AF2"
+
+# Download graph colors
+theme[download_start]="#64D2FF"
+theme[download_mid]="#64D2FF"
+theme[download_end]="#BF5AF2"
+
+# Upload graph colors
+theme[upload_start]="#64D2FF"
+theme[upload_mid]="#64D2FF"
+theme[upload_end]="#BF5AF2"

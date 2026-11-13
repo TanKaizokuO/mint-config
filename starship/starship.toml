@@ -1,279 +1,204 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# ============================================================================
+# Red Mountain / Midnight Alpine — Jetpack-style prompt
+#
+# Structure is based on Starship's built-in "jetpack" preset (`starship
+# preset jetpack`): a minimal left-hand prompt (status/duration/character)
+# with a right-aligned, context-sensitive info line (directory, git,
+# runtimes). Colors are swapped for the Red Mountain / Midnight Alpine
+# desktop palette (see ~/.config/sway/themes/Red_Mountain.conf) so the
+# terminal prompt matches Sway/Waybar/Mako/Kitty.
+#
+# Backup of the previous (pastel-powerline-style) config:
+#   ~/.config/starship_themes/starship.toml.pre-jetpack-backup-<timestamp>
+# ============================================================================
+
+add_newline = true
+continuation_prompt = "[▸▹ ](italic muted)"
+
+# --- Left prompt: status/meta only, character last ---
 format = """
-[](red)\
-$os\
-$username\
-[](bg:peach fg:red)\
-$directory\
-[](bg:yellow fg:peach)\
-$git_branch\
-$git_status\
-[](fg:yellow bg:green)\
-$c\
-$rust\
-$golang\
-$nodejs\
-$php\
-$java\
-$kotlin\
-$haskell\
-$python\
-[](fg:green bg:sapphire)\
-$conda\
-[](fg:sapphire bg:lavender)\
-$time\
-[ ](fg:lavender)\
 $cmd_duration\
-$line_break\
+$sudo\
+$username\
 $character"""
 
-palette = 'catppuccin_mocha'
+# --- Right prompt: context, only shown when relevant ---
+right_format = """
+$directory\
+$git_branch\
+$git_status\
+$docker_context\
+$python\
+$nodejs"""
 
-[os]
-disabled = false
-style = "bg:red fg:crust"
+palette = 'red_mountain'
 
-[os.symbols]
-Windows = ""
-Ubuntu = "󰕈"
-SUSE = ""
-Raspbian = "󰐿"
-Mint = "󰣭"
-Macos = "󰀵"
-Manjaro = ""
-Linux = "󰌽"
-Gentoo = "󰣨"
-Fedora = "󰣛"
-Alpine = ""
-Amazon = ""
-Android = ""
-AOSC = ""
-Arch = "󰣇"
-Artix = "󰣇"
-CentOS = ""
-Debian = "󰣚"
-Redhat = "󱄛"
-RedHatEnterprise = "󱄛"
+[palettes.red_mountain]
+# Red Mountain / Midnight Alpine core palette
+bg             = "#070B14"  # background
+surface        = "#0D1624"  # surface / panel bg
+fg             = "#D6DCE6"  # primary text
+muted          = "#788598"  # secondary/muted text
+slate          = "#526A82"  # slate blue — git branch / secondary metadata
+border         = "#263344"  # border/secondary
+crimson        = "#9E3046"  # primary accent
+bright_crimson = "#C44752"  # important/highlighted states
+magenta        = "#8D3B5A"  # secondary accent
+amber          = "#B58A52"  # warnings
+green          = "#718A78"  # success
+error          = "#B83B4B"  # errors
 
-[username]
-show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
-format = '[ $user]($style)'
+[palettes.glass_smoke]
+# Glass light mode ("smoked" kitty, bg #40423F at ~59% over near-black).
+# Text-only styles, so every role is a foreground checked for WCAG >= 4.5
+# against #40423F. Neutral greys for chrome; color only for status.
+bg             = "#40423F"  # background (kitty smoked glass)
+surface        = "#4A4C49"  # surface / panel bg
+fg             = "#F2F2F5"  # primary text (9.08:1)
+muted          = "#C7C7CC"  # secondary/muted text (6.03:1)
+slate          = "#B5B5BA"  # git branch / secondary metadata, neutral grey (4.97:1)
+border         = "#8E8E93"  # border/secondary (non-text)
+crimson        = "#E5E5EA"  # repo root accent, neutral (8.08:1)
+bright_crimson = "#FFE066"  # git status summary / staged (7.78:1)
+magenta        = "#D7A8FF"  # secondary accent: sudo, diverged, vi replace (5.28:1)
+amber          = "#FFB340"  # warnings: modified, untracked, python (5.69:1)
+green          = "#7EE787"  # success (6.61:1)
+error          = "#FF9A90"  # errors (4.97:1)
 
-[directory]
-style = "bg:peach fg:crust"
-format = "[ $path ]($style)"
-truncation_length = 3
-truncation_symbol = "…/"
-
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = "󰝚 "
-"Pictures" = " "
-"Developer" = "󰲋 "
-
-[git_branch]
-symbol = ""
-style = "bg:yellow"
-format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
-
-[git_status]
-style = "bg:yellow"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
-
-[nodejs]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[c]
-symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[rust]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[golang]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[php]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[java]
-symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[kotlin]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[haskell]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
-
-[python]
-symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
-
-[docker_context]
-symbol = ""
-style = "bg:sapphire"
-format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
-
-[conda]
-symbol = "  "
-style = "fg:crust bg:sapphire"
-format = '[$symbol$environment ]($style)'
-ignore_base = false
-
-[time]
-disabled = false
-time_format = "%R"
-style = "bg:lavender"
-format = '[[  $time ](fg:crust bg:lavender)]($style)'
-
-[line_break]
-disabled = true
-
+# --- Prompt character: reflects last command's exit status ---
 [character]
-disabled = false
-success_symbol = '[❯](bold fg:green)'
-error_symbol = '[❯](bold fg:red)'
-vimcmd_symbol = '[❮](bold fg:green)'
-vimcmd_replace_one_symbol = '[❮](bold fg:lavender)'
-vimcmd_replace_symbol = '[❮](bold fg:lavender)'
-vimcmd_visual_symbol = '[❮](bold fg:yellow)'
+format = "$symbol "
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold error)"
+vimcmd_symbol = "[❮](bold green)"
+vimcmd_replace_one_symbol = "[❮](bold magenta)"
+vimcmd_replace_symbol = "[❮](bold magenta)"
+vimcmd_visual_symbol = "[❮](bold amber)"
 
-[cmd_duration]
-show_milliseconds = true
-format = " in $duration "
-style = "bg:lavender"
+# --- Sudo: only shown while actively elevated ---
+[sudo]
+format = "[$symbol]($style) "
+style = "bold italic magenta"
+symbol = "⋈┈"
 disabled = false
+
+# --- Username: only shown for root or non-default user ---
+[username]
+style_user = "bold italic muted"
+style_root = "bold italic bright_crimson"
+format = "[⭘ $user]($style) "
+show_always = false
+disabled = false
+
+# --- Command duration: muted, only shown above a threshold ---
+[cmd_duration]
+min_time = 2000
+format = "[◄ $duration ](italic muted) "
 show_notifications = true
 min_time_to_notify = 45000
 
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+# --- Directory: primary text, crimson accent at repo root ---
+[directory]
+home_symbol = "⌂"
+truncation_length = 3
+truncation_symbol = "…/"
+read_only = " ◈"
+style = "italic bold fg"
+read_only_style = "muted"
+format = "[$path]($style)[$read_only]($read_only_style) "
+repo_root_style = "bold crimson"
+repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
 
-[palettes.catppuccin_frappe]
-rosewater = "#f2d5cf"
-flamingo = "#eebebe"
-pink = "#f4b8e4"
-mauve = "#ca9ee6"
-red = "#e78284"
-maroon = "#ea999c"
-peach = "#ef9f76"
-yellow = "#e5c890"
-green = "#a6d189"
-teal = "#81c8be"
-sky = "#99d1db"
-sapphire = "#85c1dc"
-blue = "#8caaee"
-lavender = "#babbf1"
-text = "#c6d0f5"
-subtext1 = "#b5bfe2"
-subtext0 = "#a5adce"
-overlay2 = "#949cbb"
-overlay1 = "#838ba7"
-overlay0 = "#737994"
-surface2 = "#626880"
-surface1 = "#51576d"
-surface0 = "#414559"
-base = "#303446"
-mantle = "#292c3c"
-crust = "#232634"
+# --- Git branch: slate blue (secondary metadata) ---
+[git_branch]
+symbol = "[△](bold slate)"
+format = "[$symbol $branch(:$remote_branch)]($style) "
+style = "italic slate"
+truncation_symbol = "⋯"
+truncation_length = 20
 
-[palettes.catppuccin_latte]
-rosewater = "#dc8a78"
-flamingo = "#dd7878"
-pink = "#ea76cb"
-mauve = "#8839ef"
-red = "#d20f39"
-maroon = "#e64553"
-peach = "#fe640b"
-yellow = "#df8e1d"
-green = "#40a02b"
-teal = "#179299"
-sky = "#04a5e5"
-sapphire = "#209fb5"
-blue = "#1e66f5"
-lavender = "#7287fd"
-text = "#4c4f69"
-subtext1 = "#5c5f77"
-subtext0 = "#6c6f85"
-overlay2 = "#7c7f93"
-overlay1 = "#8c8fa1"
-overlay0 = "#9ca0b0"
-surface2 = "#acb0be"
-surface1 = "#bcc0cc"
-surface0 = "#ccd0da"
-base = "#eff1f5"
-mantle = "#e6e9ef"
-crust = "#dce0e8"
+# --- Git status: bright crimson for the summary, semantic colors per state ---
+[git_status]
+style = "bold italic bright_crimson"
+format = "([⎪$ahead_behind$staged$modified$untracked$renamed$deleted$conflicted$stashed⎥]($style)) "
+ahead = "[▴${count}](green)"
+behind = "[▿${count}](error)"
+diverged = "[◇▴${ahead_count}▿${behind_count}](magenta)"
+untracked = "[◌◦](amber)"
+stashed = "[◃◈](muted)"
+modified = "[●◦](amber)"
+staged = "[▪${count}](bright_crimson)"
+renamed = "[◎◦](slate)"
+deleted = "[✕](error)"
+conflicted = "[◪◦](error)"
 
-[palettes.catppuccin_macchiato]
-rosewater = "#f4dbd6"
-flamingo = "#f0c6c6"
-pink = "#f5bde6"
-mauve = "#c6a0f6"
-red = "#ed8796"
-maroon = "#ee99a0"
-peach = "#f5a97f"
-yellow = "#eed49f"
-green = "#a6da95"
-teal = "#8bd5ca"
-sky = "#91d7e3"
-sapphire = "#7dc4e4"
-blue = "#8aadf4"
-lavender = "#b7bdf8"
-text = "#cad3f5"
-subtext1 = "#b8c0e0"
-subtext0 = "#a5adcb"
-overlay2 = "#939ab7"
-overlay1 = "#8087a2"
-overlay0 = "#6e738d"
-surface2 = "#5b6078"
-surface1 = "#494d64"
-surface0 = "#363a4f"
-base = "#24273a"
-mantle = "#1e2030"
-crust = "#181926"
+# --- Docker: only shown when a non-default context is active ---
+[docker_context]
+symbol = "◧ "
+style = "slate"
+format = "[$symbol$context]($style) "
+only_with_files = true
+
+# --- Runtimes: only rendered inside a matching project ---
+[python]
+symbol = "⌉⌊ "
+style = "bold amber"
+format = "[${symbol}${version}( \\(#$virtualenv\\))]($style) "
+
+[nodejs]
+symbol = "◫ "
+style = "bold green"
+format = "[$symbol($version )]($style) "
+detect_files = ["package.json", "package-lock.json", "yarn.lock", ".node-version"]
+
+# --- Everything else the jetpack preset carries: explicitly disabled ---
+# (kept out of $format/$right_format above, disabled here too so a stray
+# reference or preset diff doesn't silently re-enable them)
+[hostname]
+disabled = true
+[localip]
+disabled = true
+[shlvl]
+disabled = true
+[shell]
+disabled = true
+[jobs]
+disabled = true
+[nix_shell]
+disabled = true
+[container]
+disabled = true
+[git_metrics]
+disabled = true
+[time]
+disabled = true
+[line_break]
+disabled = true
+[c]
+disabled = true
+[rust]
+disabled = true
+[golang]
+disabled = true
+[php]
+disabled = true
+[java]
+disabled = true
+[kotlin]
+disabled = true
+[haskell]
+disabled = true
+[conda]
+disabled = true
+[package]
+disabled = true
+[memory_usage]
+disabled = true
+[battery]
+disabled = true
+[status]
+disabled = true
+[os]
+disabled = true

@@ -11,10 +11,12 @@ set $mod Mod4
 # Built-in HiDPI panel: 1.5x fractional scaling -> logical 1920x1200
 output eDP-1 scale 1.5 position 1920 0
 
-# Samsung 27" FHD 100Hz (arrives Mon). HDMI connector = HDMI-A-1 on Sway.
-# If you plug it into DisplayPort instead, change HDMI-A-1 -> DP-1 (check with
-# `swaymsg -t get_outputs`). No scaling needed at 1080p/27". Sits left of laptop.
-output HDMI-A-1 mode 1920x1080@100Hz scale 1 position 0 0
+# Samsung 27" FHD (LS27C33xG). Enumerates as DP-2 as of 2026-09-09; DP-1 and
+# HDMI-A-1 kept too so any connector works. Sway ignores lines for outputs
+# that aren't present. No scaling needed at 1080p/27". Sits left of laptop.
+output DP-1      mode 1920x1080@60Hz scale 1 position 0 0
+output HDMI-A-1  mode 1920x1080@60Hz scale 1 position 0 0
+output DP-2      mode 1920x1080@60Hz scale 1 position 0 0
 
 ############################################################
 # WORKSPACE -> MONITOR ASSIGNMENT
@@ -32,17 +34,37 @@ set $ws9 "9"
 set $ws10 "10"
 
 # Odd workspaces on the external monitor, even on the laptop.
-# Until the monitor is connected, the HDMI-A-1 workspaces fall back to eDP-1.
-workspace $ws1 output HDMI-A-1
+# Listing both connector names makes this work on DP or HDMI; sway takes the
+# first output in the list that actually exists, falling back to eDP-1.
+workspace $ws1 output DP-2 DP-1 HDMI-A-1 eDP-1
 workspace $ws2 output eDP-1
-workspace $ws3 output HDMI-A-1
+workspace $ws3 output DP-2 DP-1 HDMI-A-1 eDP-1
 workspace $ws4 output eDP-1
-workspace $ws5 output HDMI-A-1
+workspace $ws5 output DP-2 DP-1 HDMI-A-1 eDP-1
 workspace $ws6 output eDP-1
-workspace $ws7 output HDMI-A-1
+workspace $ws7 output DP-2 DP-1 HDMI-A-1 eDP-1
 workspace $ws8 output eDP-1
-workspace $ws9 output HDMI-A-1
+workspace $ws9 output DP-2 DP-1 HDMI-A-1 eDP-1
 workspace $ws10 output eDP-1
+
+############################################################
+# APPLICATION -> WORKSPACE ASSIGNMENT
+############################################################
+# `assign` catches EVERY window of an app, not just the startup one.
+# Brave (ws1) and VS Code (ws3) are deliberately not assigned, so $mod+b and
+# $mod+c open on the current workspace; scripts/autostart.sh moves only their
+# first startup window.
+
+# Workspace 2: Terminal (kitty is native Wayland, so app_id only)
+assign [app_id="kitty"]                number $ws2
+
+# Workspace 4: Orca IDE
+assign [app_id="orca"]                 number $ws4
+assign [class="(?i)orca"]              number $ws4
+
+# Workspace 5: ChatGPT
+assign [app_id="(?i)chatgpt"]          number $ws5
+assign [class="(?i)chatgpt"]           number $ws5
 
 ############################################################
 # INPUT
@@ -63,12 +85,27 @@ input type:keyboard {
 exec waybar
 exec mako
 exec variety
+
+
+# App autostart. `exec`, not exec_always: a reload must never relaunch apps.
+# Each app waits for the previous one's window, so login isn't flooded.
+exec ~/.config/sway/scripts/autostart.sh
+# Pops a mako alert ~20s after login if any systemd unit failed (sway never
+# starts graphical-session.target, so this can't be a user unit).
+exec ~/.local/bin/failed-units-check.sh
+# Clipboard history watchers (cliphist). Two separate wl-paste processes: one
+# watches text, one watches images. They read via the wlr-data-control protocol
+# sway implements, so no X11/XWayland involved. Picker binding is further down
+# under CLIPBOARD HISTORY.
+exec wl-paste --type text  --watch cliphist store
+exec wl-paste --type image --watch cliphist store
 exec swayidle -w \
-    timeout 300 'swaylock -f -c 1e1e2e' \
+    timeout 300 '~/.config/sway/scripts/lock.sh' \
     timeout 600 'swaymsg "output * dpms off"' \
     resume     'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f -c 1e1e2e'
-output * bg #1e1e2e solid_color
+    before-sleep '~/.config/sway/scripts/lock.sh'
+# Wallpaper is not tracked in this repo; point this at your own image.
+output * bg ~/Pictures/Wallpapers/dark-landscape.jpg fill
 
 ############################################################
 # IDLE INHIBIT
@@ -79,18 +116,33 @@ for_window [app_id=".*"] inhibit_idle fullscreen
 for_window [class=".*"]  inhibit_idle fullscreen
 
 ############################################################
+# SCREEN LOCK
+############################################################
+# Same script swayidle uses: blurred copy of the current wallpaper.
+# Escape hatch if a lock ever wedges: Ctrl+Alt+F3, log in on the TTY,
+# `pkill swaylock`, then Ctrl+Alt+F1 (or F7) to come back.
+bindsym $mod+Shift+l exec ~/.config/sway/scripts/lock.sh
+
+############################################################
 # TERMINAL / APPLICATION LAUNCHERS
 ############################################################
 # Terminal (Kitty)
 bindsym $mod+t exec kitty
+# Flip the liquid-glass theme between dark and light
+bindsym $mod+Shift+t exec ~/.config/sway/scripts/glass-theme.sh toggle
 bindsym $mod+Return exec kitty
 
 # VS Code
 bindsym $mod+c exec code
 
-# Antigravity  (moved off $mod+c to resolve the clash with VS Code)
+# Antigravity 
 bindsym $mod+a exec antigravity
 
+#Android-Studio
+bindsym $mod+Shift+a exec android-studio
+
+# ChatGPT desktop app. Super+space instead of Super+Shift+c, which is reload.
+bindsym $mod+space exec chatgpt
 ############################################################
 # BROWSER
 ############################################################
@@ -100,8 +152,9 @@ bindsym $mod+b exec brave-browser
 ############################################################
 # FILE MANAGER
 ############################################################
-# Thunar file manager
-bindsym $mod+x exec thunar
+# yazi (TUI file manager) in kitty
+bindsym $mod+x exec kitty --class yazi -e yazi
+bindsym $mod+Shift+x exec nautilus
 
 ############################################################
 # NETWORK MANAGER (GUI)
@@ -111,7 +164,8 @@ bindsym $mod+n exec nm-connection-editor
 ############################################################
 # APPLICATION LAUNCHER / SCREENSHOT
 ############################################################
-# Rofi (runs via XWayland; launching apps works fine)
+# Rofi runs via XWayland, so SwayFX cannot blur it; its theme uses a near-opaque glass tint instead.
+# Alternative with real blur: fuzzel
 bindsym $mod+d exec rofi -show drun
 
 # Screenshots (grim+slurp): save to ~/Pictures/Screenshots + clipboard + mako popup.
@@ -121,6 +175,20 @@ bindsym XF86SelectiveScreenshot  exec ~/.config/sway/scripts/screenshot.sh regio
 # Full screen:
 bindsym $mod+Print                    exec ~/.config/sway/scripts/screenshot.sh full
 bindsym $mod+XF86SelectiveScreenshot  exec ~/.config/sway/scripts/screenshot.sh full
+
+############################################################
+# CLIPBOARD HISTORY (cliphist + fuzzel)
+############################################################
+# Ctrl+Alt+v opens the picker. Selecting an entry copies it back to the
+# clipboard — paste as usual with Ctrl+v afterwards.
+# Note: $mod+v is left alone (it's "split v" above), hence Ctrl+Alt+v.
+bindsym Ctrl+Alt+v exec cliphist list | fuzzel --dmenu --prompt='clip> ' | cliphist decode | wl-copy
+
+# Delete a single entry from history (same picker, removes instead of copies).
+bindsym Ctrl+Alt+Shift+v exec cliphist list | fuzzel --dmenu --prompt='delete> ' | cliphist delete
+
+# Wipe the whole history.
+bindsym Ctrl+Alt+Shift+Delete exec cliphist wipe
 
 ############################################################
 # WINDOW FOCUS NAVIGATION (arrow keys)
@@ -157,25 +225,24 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-
-# Floating / scratchpad (parity with i3)
+# Float/tile the focused window; Super+drag moves floats, Super+right-drag resizes.
 bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+Shift+m move scratchpad
-bindsym $mod+Shift+s scratchpad show
+floating_modifier $mod normal
 
-# Resize mode
-bindsym $mod+r mode "resize"
-mode "resize" {
-    bindsym Left  resize shrink width  10 px
-    bindsym Down  resize grow   height 10 px
-    bindsym Up    resize shrink height 10 px
-    bindsym Right resize grow   width  10 px
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
-}
+############################################################
+# SCRATCHPAD — hidden windows you can summon anywhere
+############################################################
+# Super+Shift+minus stashes the focused window; Super+minus cycles stashed ones.
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+# Drop-down terminal on Super+grave: spawned once, then toggled in and out.
+for_window [app_id="dropterm"] floating enable, resize set 70 ppt 60 ppt, move position center, move scratchpad
+exec kitty --class dropterm
+bindsym $mod+grave [app_id="dropterm"] scratchpad show, move position center
+# Searchable list of every keybinding in this file.
+bindsym $mod+slash exec ~/.config/sway/scripts/keys.sh
+# Tapping the current workspace's number again jumps back to the previous one.
+workspace_auto_back_and_forth yes
 
 ############################################################
 # WORKSPACE NAVIGATION
@@ -224,7 +291,8 @@ bindsym $mod+Shift+e exec swaynag -t warning \
 ############################################################
 bindsym XF86MonBrightnessUp   exec brightnessctl set 5%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-bindsym XF86AudioRaiseVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+# Cap software amplification at unity, matching Waybar's volume scroll.
+bindsym XF86AudioRaiseVolume  exec wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioLowerVolume  exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym XF86AudioMute         exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -232,18 +300,22 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 ############################################################
-# APPEARANCE — Catppuccin Mocha window colors
+# APPEARANCE — liquid glass window colors
 ############################################################
-# class                 border  bg      text    indicator child_border
-client.focused          #89b4fa #89b4fa #1e1e2e #f5c2e7   #89b4fa
-client.focused_inactive #45475a #45475a #cdd6f4 #45475a   #45475a
-client.unfocused        #313244 #1e1e2e #6c7086 #313244   #313244
-client.urgent           #f38ba8 #f38ba8 #1e1e2e #f38ba8   #f38ba8
-client.placeholder      #1e1e2e #1e1e2e #cdd6f4 #1e1e2e   #1e1e2e
-client.background       #1e1e2e
+# Window colours come from the active glass theme (dark or light).
+# Switch with $mod+Shift+t or ~/.config/sway/scripts/glass-theme.sh
+include ~/.config/glass-themes/current/sway-colors.conf
 
-default_border pixel 4
+default_border pixel 2
 gaps inner 6
 gaps outer 2
+# Keep clearance below Waybar for single windows, matching split workspaces.
+smart_gaps off
+
+############################################################
+# LID SWITCH — keep running with lid closed, external screen on
+############################################################
+bindswitch --reload --locked lid:on  output eDP-1 disable
+bindswitch --reload --locked lid:off output eDP-1 enable
 
 include /etc/sway/config.d/*

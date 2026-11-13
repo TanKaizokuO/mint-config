@@ -28,7 +28,6 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 bindkey -v
 
 eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
 
 
 HISTSIZE=10000
@@ -129,7 +128,8 @@ bindkey -s '^[[23\;2D' 'tmux detach'
 
 
 #source /opt/ros/jazzy/setup.zsh
-export PATH="$PATH:$HOME/.modular/bin"
+# Removed 2026-08-04: PATH entry for /home/ubuntu/.modular/bin — stale path from a
+# previous Ubuntu install; that directory does not exist under this home.
 # Add this to your ~/.bashrc or ~/.zshrc file
 open_with_ranger() {
     selected_file=$(find ~ -maxdepth 4 -type f 2>/dev/null | fzf --preview 'cat {}')
@@ -137,24 +137,21 @@ open_with_ranger() {
 }
 
 alias rzf='open_with_ranger'
-push_code() {
-    # Start in the current directory
-    dir="$PWD"
-    
-    # Traverse up until we find a .git directory or reach the root
-    while [ "$dir" != "/" ]; do
-        if [ -d "$dir/.git" ]; then
-            # If .git directory is found, run push.sh from the found directory
-            (cd "$dir" && bash push.sh)
-            return
-        fi
-        # Move up one directory
-        dir=$(dirname "$dir")
-    done
-    
-    # If no git repo was found
-    echo "No git repository found in this directory or its parents."
-}
+# Disabled 2026-08-04: this called /home/ubuntu/githubrepos/backend/push.sh, a stale
+# path from a previous Ubuntu install. push.sh no longer exists anywhere under this
+# home, so the function always failed. To revive it, set PUSH_SCRIPT below to the
+# script's real location and uncomment. (The repo-root walk is now git rev-parse,
+# which also handles worktrees and submodules, where .git is a file rather than a dir.)
+#
+# PUSH_SCRIPT="$HOME/path/to/push.sh"
+# push_code() {
+#     local root
+#     root=$(git rev-parse --show-toplevel 2>/dev/null) || {
+#         echo "No git repository found in this directory or its parents."
+#         return 1
+#     }
+#     (cd "$root" && "$PUSH_SCRIPT")
+# }
 
 
 bindkey -s '^F' 'open_with_ranger :. ^M'
@@ -195,7 +192,17 @@ export NEWT_COLORS='root=#cdd6f4,#1e1e2e;window=#cdd6f4,#1e1e2e;shadow=#181825,#
 alias night-mode-on='redshift -m randr -r -t 3500:3500 -l 19.07:72.87 &'
 alias night-mode-off='pkill -f redshift'
 
-alias update-onegai='sudo -v && sudo apt update 2>&1 | lolcat && sudo apt upgrade -y 2>&1 | lolcat && sudo apt autoremove -y 2>&1 | lolcat && flatpak update -y 2>&1 | lolcat'
+# Clears the legacy /etc/apt/sources.list only when it is non-empty (real repos live in
+# sources.list.d/), keeping a .bak and saying so, instead of truncating unconditionally.
+clear_legacy_sources() {
+    [ -s /etc/apt/sources.list ] || return 0
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak &&
+    sudo truncate -s 0 /etc/apt/sources.list &&
+    echo "cleared non-empty /etc/apt/sources.list (backup: /etc/apt/sources.list.bak)"
+}
+
+# Only a wrong sudo password aborts; after that every step runs even if an earlier one failed.
+alias update-onegai='sudo -v && { clear_legacy_sources; sudo apt update; sudo apt upgrade -y; sudo apt autoremove -y; flatpak update -y; flatpak uninstall --unused -y; if [ -f /var/run/reboot-required ]; then echo "Reboot required"; fi; }'
 # alias wifi-fix='sudo service network-manager restart'
 alias oyasumi='shutdown now'
 alias o='xdg-open'
@@ -203,16 +210,6 @@ alias hotspot-on='nmcli device wifi hotspot ifname wlp1s0f0 ssid "${HOTSPOT_SSID
 alias hotspot-off='nmcli connection down Hotspot-1'
 alias open-ports='sudo ss -tuln'
 alias active-connections='nmcli connection show --active'
-
-# export OPENROUTER_API_KEY  # set in ~/.secrets or env
-# export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
-# export ANTHROPIC_AUTH_TOKEN="$OPENROUTER_API_KEY"
-# export ANTHROPIC_API_KEY="" 
-
-# export ANTHROPIC_MODEL="openrouter/free"
-# # export ANTHROPIC_DEFAULT_SONNET_MODEL="qwen/qwen2.5-72b-instruct"
-# # export ANTHROPIC_DEFAULT_HAIKU_MODEL="qwen/qwen2.5-72b-instruct"
-# # export CLAUDE_CODE_SUBAGENT_MODEL="qwen/qwen2.5-72b-instruct"
 
 
 
@@ -230,5 +227,28 @@ export PATH="$COMPOSIO_INSTALL_DIR:$PATH"
 
 
 export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
 
+
+# Target kept out of the repo: export LAB_SSH_TARGET=user@host in ~/.secrets or env.
+alias ssh_to_lab='ssh "${LAB_SSH_TARGET:?Set LAB_SSH_TARGET}"'
+
+# Electron apps (VS Code) native Wayland instead of XWayland
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+export PATH=$HOME/development/flutter/bin:$PATH
+# export AWS_PROFILE=...  # set in ~/.secrets or env
+
+# atuin: searchable, deduplicated shell history on Ctrl+R (replaces fzf's Ctrl+R).
+# Up-arrow stays the normal per-session history.
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# zoxide must be initialized last so it wraps the final PATH/cd setup
+eval "$(zoxide init --cmd cd zsh)"

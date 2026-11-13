@@ -1,0 +1,86 @@
+# Glass light theme for btop (smoked glass: kitty bg #40423F at ~59% opacity, light text)
+# Selected via ~/.config/btop/themes/glass.theme -> ~/.config/glass-themes/current/btop.theme
+
+# Main bg: empty so the terminal glass shows through
+theme[main_bg]=""
+
+# Main text color (light text on smoked glass)
+theme[main_fg]="#F2F2F5"
+
+# Title color for boxes
+theme[title]="#F2F2F5"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#FFB340"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#CFD3DC"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#1D1D1F"
+
+# Color of inactive/disabled text (muted)
+theme[inactive_fg]="#C7C7CC"
+
+# Color of text on top of graphs
+theme[graph_text]="#C7C7CC"
+
+# Background color of the percentage meters
+theme[meter_bg]="#8E8E93"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#7CC4FF"
+
+# Box outline colors (neutral divider grey)
+theme[cpu_box]="#8E8E93"
+theme[mem_box]="#8E8E93"
+theme[net_box]="#8E8E93"
+theme[proc_box]="#8E8E93"
+
+# Box divider line and small boxes line color
+theme[div_line]="#8E8E93"
+
+# Temperature graph colors (load: green -> yellow -> red)
+theme[temp_start]="#7EE787"
+theme[temp_mid]="#FFE066"
+theme[temp_end]="#FF8A80"
+
+# CPU graph colors (load: green -> yellow -> red)
+theme[cpu_start]="#7EE787"
+theme[cpu_mid]="#FFE066"
+theme[cpu_end]="#FF8A80"
+
+# Process box gradient (load: green -> yellow -> red)
+theme[process_start]="#7EE787"
+theme[process_mid]="#FFE066"
+theme[process_end]="#FF8A80"
+
+# Mem/Disk free meter (blue -> cyan -> purple)
+theme[free_start]="#7CC4FF"
+theme[free_mid]="#70E0E0"
+theme[free_end]="#D7A8FF"
+
+# Mem/Disk cached meter
+theme[cached_start]="#7CC4FF"
+theme[cached_mid]="#70E0E0"
+theme[cached_end]="#D7A8FF"
+
+# Mem/Disk available meter
+theme[available_start]="#7CC4FF"
+theme[available_mid]="#70E0E0"
+theme[available_end]="#D7A8FF"
+
+# Mem/Disk used meter
+theme[used_start]="#7CC4FF"
+theme[used_mid]="#70E0E0"
+theme[used_end]="#D7A8FF"
+
+# Download graph colors
+theme[download_start]="#7CC4FF"
+theme[download_mid]="#70E0E0"
+theme[download_end]="#D7A8FF"
+
+# Upload graph colors
+theme[upload_start]="#7CC4FF"
+theme[upload_mid]="#70E0E0"
+theme[upload_end]="#D7A8FF"

@@ -1,0 +1,4 @@
+[[mgr.prepend_keymap]]
+on = "<C-o>"
+run = 'shell --orphan -- p=%h; [ -d "$p" ] || p="$PWD"; code "$p"'
+desc = "Open hovered folder (or current folder) in VS Code"

@@ -1,0 +1,85 @@
+/* Light theme (same fill as Waybar) "liquid glass" — matches waybar/fuzzel/mako (layout & font preserved).
+   Rofi runs via XWayland, so SwayFX can't blur it: the fill is more opaque than the
+   blurred surfaces (0.61) to keep text readable over busy windows. */
+
+* {
+    glass-fill:  rgba(162,162,165, 88%);
+    hairline:    rgba(255,255,255, 43%);
+    text:        #1D1D1F;
+    muted:       #2E2E33;
+    selected:    rgba(255,255,255, 60%);
+
+    separatorcolor: transparent;
+    background-color: transparent;
+    text-color: @text;
+    normal-background: transparent;
+    alternate-normal-background: transparent;
+    selected-normal-background: @selected;
+}
+
+configuration {
+    font: "JetBrainsMono Nerd Font Mono 15";
+    lines: 10;
+    fixed-num-lines: true;
+    padding: 10px;
+}
+
+window {
+    border-radius: 16px;
+    border: 1px solid;
+    border-color: @hairline;
+    background-color: @glass-fill;
+    padding: 0px;
+    width: 40%;
+}
+
+mainbox {
+    border: 0px;
+    padding: 10px;
+}
+
+inputbar {
+    children: [entry];
+    background-color: rgba(0,0,0, 6%);
+    border: 1px solid;
+    border-color: @hairline;
+    border-radius: 12px;
+    margin: 0 0 8px 0;
+}
+
+entry {
+    placeholder: "Search";
+    placeholder-color: @muted;
+    text-color: @text;
+    padding: 8px 0 8px 8px;
+}
+
+listview {
+    lines: 10;
+    scrollbar: true;
+}
+
+element {
+    padding: 10px 10px;
+    height: 50px;
+    border-radius: 10px;
+    children: [ element-text, element-icon ];
+}
+
+element-text {
+    text-color: @text;
+}
+
+element selected {
+    background-color: @selected;
+    text-color: #000000;
+}
+element selected element-text {
+    text-color: #000000;
+}
+
+scrollbar {
+    handle-color: rgba(0,0,0, 25%);
+    handle-width: 4px;
+    padding: 0;
+}

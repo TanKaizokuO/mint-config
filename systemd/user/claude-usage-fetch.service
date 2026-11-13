@@ -1,0 +1,6 @@
+[Unit]
+Description=Refresh Claude Code plan-usage cache for the waybar usage meter
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I %h/.config/waybar/scripts/fetch_claude_usage.py

@@ -1,0 +1,159 @@
+/* Waybar — light theme: halfway between grey glass and full light */
+
+* {
+    font-family: "JetBrainsMono NFM", "Font Awesome 5 Free", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: #1D1D1F;
+}
+
+/* Glass pills. The left side is a transparent strip holding two pills
+   (workspaces, usage meters); the centre and right modules are pills themselves. */
+.modules-left {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 4px;
+}
+
+.modules-center {
+    background: rgba(162, 162, 165, 0.61);
+    border: 1px solid rgba(255, 255, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    padding: 0 6px;
+    margin: 0 4px;
+}
+
+/* The right side is a transparent strip of four glass pills (the group modules in config.jsonc). */
+.modules-right {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 4px;
+}
+
+/* Left-side pills: same glass as the centre/right pills. The 8px gap between them
+   is the 4px box spacing from config.jsonc plus the 4px right margin. */
+#workspaces,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#perf, #conn, #power,
+#tray {
+    background: rgba(162, 162, 165, 0.61);
+    border: 1px solid rgba(255, 255, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    padding: 0 2px;
+    margin: 0 4px 0 0;
+}
+
+#workspaces {
+    padding: 0 22px;
+}
+
+/* ---- Workspaces ---- */
+#workspaces button {
+    padding: 0 9px;
+    margin: 3px 2px;
+    color: #2C2C30;
+    background: transparent;
+    border-radius: 10px;
+    transition: all 0.15s ease;
+}
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: #1D1D1F;
+}
+#workspaces button.focused {
+    background: rgba(60, 60, 64, 0.22);
+    color: #1D1D1F;
+}
+#workspaces button.urgent {
+    background: transparent;
+    color: #C25E00;
+}
+
+#mode {
+    color: #1D1D1F;
+    padding: 0 10px;
+}
+
+/* ---- Window title ---- */
+#window {
+    color: #1D1D1F;
+    padding: 0 10px;
+    font-style: italic;
+}
+window#waybar.empty #window {
+    background: transparent;
+}
+
+/* ---- Right-side modules ---- */
+#cpu,
+#memory,
+#backlight,
+#network,
+#pulseaudio,
+#battery,
+#clock {
+    padding: 0 10px;
+    margin: 3px 1px;
+    border-radius: 8px;
+    background: transparent;
+}
+
+#clock       { color: #1D1D1F; font-weight: bold; }
+#cpu         { color: #0A4D1A; }
+#memory      { color: #0A4D1A; }
+#backlight   { color: #1D1D1F; }
+#network     { color: #1D1D1F; }
+#pulseaudio  { color: #1D1D1F; }
+#battery     { color: #0A4D1A; }
+
+#pulseaudio.muted { color: #3A3A3F; }
+
+#battery.warning  { color: #5C4200; }
+#battery.critical { color: #8A0012; }
+#battery.charging { color: #0A4D1A; }
+
+/* CPU and memory: green, then yellow at 60%, red at 85% (CPU) or 80% (memory) */
+#cpu.warning, #memory.warning   { color: #5C4200; }
+#cpu.critical, #memory.critical { color: #8A0012; }
+
+#network.disconnected { color: #C25E00; }
+
+/* ---- Usage pills (CC / CX / AGY): labels are Pango-dimmed, the % takes the status colour ---- */
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy {
+    padding: 0 14px;
+    color: #3A3A3F;
+}
+#custom-usage-cc.ok, #custom-usage-cx.ok, #custom-usage-agy.ok { color: #0A4D1A; }
+#custom-usage-cc.warning, #custom-usage-cx.warning, #custom-usage-agy.warning { color: #5C4200; }
+#custom-usage-cc.critical, #custom-usage-cx.critical, #custom-usage-agy.critical { color: #8A0012; }
+
+#tray {
+    padding: 0 12px;
+    margin: 0 0 0 4px;
+}
+#perf, #conn, #power { margin: 0 0 0 4px; padding: 0 6px; }
+
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention { -gtk-icon-effect: highlight; }
+
+/* Vertical centring: the font's glyphs sit ~2px high in the 34px bar, so give the
+   text 4px of top padding (centre moves down 2px). The bar height fixes the pill height. */
+#workspaces button,
+#custom-usage-cc, #custom-usage-cx, #custom-usage-agy,
+#clock, #cpu, #memory, #backlight, #network, #pulseaudio, #battery {
+    padding-top: 4px;
+    padding-bottom: 0;
+}

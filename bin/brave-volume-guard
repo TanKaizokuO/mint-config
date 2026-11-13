@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Event-driven (pactl subscribe, no polling). Logs Brave/Chromium hidden master volume
+# changes with context, and resets Brave to 1.0 when it drops below 0.99.
+LOG="$HOME/.local/state/brave-volume-guard/log"
+last=""
+check() {
+  pw-dump 2>/dev/null | jq -r '.[] | select(.type=="PipeWire:Interface:Node")
+    | select(.info.props["media.class"]=="Stream/Output/Audio")
+    | select((.info.props["application.name"]//"")|test("Brave|Chromium|ChatGPT";"i"))
+    | [.id, .info.props["application.name"], ((.info.params.Props[0].volume)//1)] | @tsv' |
+  while IFS=$'\t' read -r id app vol; do
+    key="$app=$vol"
+    if awk "BEGIN{exit !($vol < 0.99)}"; then
+      ctx=$(pw-dump | jq -r '[.[]|select(.info.props["media.class"]=="Stream/Output/Audio" or .info.props["media.class"]=="Stream/Input/Audio")|.info.props["application.name"]+":"+(.info.props["media.class"]|split("/")[1])]|join(",")')
+      echo "$(date -Is) LOW $app node=$id volume=$vol streams=[$ctx]" >> "$LOG"
+      if [[ $app == Brave ]]; then
+        pw-cli s "$id" Props '{ volume: 1.0 }' >/dev/null 2>&1 &&
+          echo "$(date -Is) RESET Brave node=$id -> 1.0" >> "$LOG"
+      fi
+    fi
+  done
+}
+echo "$(date -Is) guard started" >> "$LOG"
+check
+pactl subscribe | grep --line-buffered "sink-input" | while read -r _; do check; done

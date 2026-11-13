@@ -52,3 +52,6 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Added by Antigravity CLI installer
 export PATH="$HOME/.local/bin:$PATH"
 [[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+
+# Go toolchain
+export PATH="$HOME/.local/go/bin:$HOME/go/bin:$PATH"

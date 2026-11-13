@@ -2,22 +2,40 @@
 opacity = 0.8
 
 [colors.primary]
-background = "#000000"
-foreground = "#ffffff"
+background = "#13160F"
+foreground = "#D5D8D4"
+
+[colors.cursor]
+text = "#13160F"
+cursor = "#C47A35"
+
+[colors.selection]
+text = "#D5D8D4"
+background = "#0C3A52"
 
 [colors.normal]
-black = "#000000"
-red = "#900609"
-green = "#03901c"
-yellow = "#b1a105"
-blue = "#044a87"
-magenta = "#830577"
-cyan = "#039064"
-white = "#aaaaaa"
+black = "#1B211E"
+red = "#C2523A"
+green = "#7FA07A"
+yellow = "#D5A06A"
+blue = "#3E8DB0"
+magenta = "#A07A8F"
+cyan = "#5BA8B5"
+white = "#D5D8D4"
+
+[colors.bright]
+black = "#3A423D"
+red = "#DE6A4E"
+green = "#98BA92"
+yellow = "#E8BC85"
+blue = "#5BA8CC"
+magenta = "#BC96AB"
+cyan = "#7CC2CE"
+white = "#EDEFEA"
 
 [font]
-size = 11
+size = 15
 
 [font.normal]
-family = 'JetBrainsMono Nerd Font'
+family = 'JetBrainsMono NFM'
 style = 'Regular'

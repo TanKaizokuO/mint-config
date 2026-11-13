@@ -1,0 +1,7 @@
+[Unit]
+Description=Weekly user cache cleanup
+[Service]
+Type=oneshot
+Nice=19
+IOSchedulingClass=idle
+ExecStart=%h/.local/bin/weekly-maintenance.sh

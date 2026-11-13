@@ -1,0 +1,32 @@
+include ~/.config/sway/config
+
+############################################################
+# SWAYFX ONLY — blur, rounded corners, shadows, dimming
+# Loaded only by the SwayFX session: sway -c ~/.config/sway/config-swayfx
+# Plain sway 1.9 (/usr/bin/sway) must NOT load this file; it rejects these commands.
+############################################################
+corner_radius 14
+smart_corner_radius enable
+blur enable
+blur_xray disable
+blur_passes 2
+blur_radius 6
+blur_noise 0.02
+# Tint-dependent blur and shadow values come from the active glass theme
+include ~/.config/glass-themes/current/swayfx.conf
+shadows enable
+shadows_on_csd disable
+shadow_blur_radius 28
+shadow_offset 0 8
+default_dim_inactive 0.06
+dim_inactive_colors.unfocused #000000FF
+# No layer effects on waybar: they apply to the whole full-width surface and drew a grey strip
+# behind the floating pills. The pills are opaque enough (0.85) to not need blur.
+layer_effects "waybar" blur disable; shadows disable; corner_radius 0
+layer_effects "launcher" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 16
+layer_effects "notifications" blur enable; blur_ignore_transparent enable; corner_radius 14
+
+# File managers as glass: Nautilus and Yazi (kitty --class yazi) at 0.75 so the blur shows through.
+# Window opacity fades text too; Yazi stacks on kitty's own background_opacity.
+for_window [app_id="org.gnome.Nautilus"] opacity 0.75
+for_window [app_id="yazi"] opacity 0.75

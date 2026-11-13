@@ -1,0 +1,7 @@
+[Unit]
+Description=Refresh Codex/agy quota cache for the waybar usage meter
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.config/waybar/scripts/fetch_omp_usage.py
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
