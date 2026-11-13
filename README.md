@@ -57,7 +57,7 @@ Personal configuration files for my Linux workstation (IdeaPad Pro 5, Arrow Lake
 | `bin/failed-units-check.sh` | Login notification if any systemd unit failed |
 | `bin/brave-volume-guard` + service | Logs and resets Brave's hidden stream-volume drops |
 | `bin/weekly-maintenance.sh` + timer | Weekly cache cleanup |
-| `systemd/user/daypane.service` + `glass-themes/*/daypane.css` | daypane calendar/tasks daemon; popup on `Super+Shift+D` or hovering the clock. Its `config.toml` (calendar credentials) is not tracked |
+| `systemd/user/daypane.service` + `glass-themes/*/daypane.css` | daypane calendar/tasks daemon; popup on `Super+Shift+D` or clicking the Waybar clock. Its `config.toml` (calendar credentials) is not tracked |
 
 ### Local-only values
 Secrets and machine-specific targets are read from the environment (e.g. `~/.secrets`), never committed:

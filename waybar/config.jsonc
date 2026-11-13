@@ -94,7 +94,8 @@
 
     "clock": {
         "format": "{:%a %d %b  %H:%M}",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "~/.cargo/bin/daypane popup"
     },
 
     "tray": { "spacing": 8 }
